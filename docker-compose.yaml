@@ -1,7 +1,7 @@
-name: performance-workshop
+name: support
 services:
   router-init:
-    image: &routerImage ghcr.io/apollographql/router:v1.55.0
+    image: &routerImage ghcr.io/apollographql/router:v2.2.0
     user: root
     entrypoint:
       - "chown"
@@ -10,11 +10,11 @@ services:
     volumes:
       - router-logs:/var/log/router
   router:
-    image: ghcr.io/apollographql/router:v1.55.0
+    image: ghcr.io/apollographql/router:v2.2.0
     environment:
       # Note that APOLLO_KEY and APOLLO_GRAPH_REF will be rotated.
-      - APOLLO_KEY=service:workshop-g34n8cr:VevTcL33CrNX1cl_X_9VxQ
-      - APOLLO_GRAPH_REF=workshop-g34n8cr@current
+      - APOLLO_KEY=${APOLLO_KEY}
+      - APOLLO_GRAPH_REF=${APOLLO_GRAPH_REF}
     entrypoint:
       - "/etc/router/.router/bootstrap.sh"
     ports:
@@ -27,8 +27,6 @@ services:
         limits:
           cpus: '2.0'
     labels:
-      - dev.dozzle.name=router
-      - dev.dozzle.group=apollo
       - loggable
     depends_on:
       - router-init
@@ -58,8 +56,6 @@ services:
       - ${PWD}/subgraphs:/etc/subgraphs
       - ${PWD}/router:/etc/router:rw
     labels:
-      - dev.dozzle.name=subgraphs
-      - dev.dozzle.group=apollo
       - loggable
   code-server:
     image: codercom/code-server:latest
@@ -89,26 +85,6 @@ services:
     volumes:
       -  ${PWD}/grafana/grafana.ini:/etc/grafana/grafana.ini
       -  ${PWD}/grafana/provisioning:/etc/grafana/provisioning
-
-# Dozzle is infinitely better than grafana for viewing logs, but for demo purposes grafana can be configured to watch for certain log events.
-#  dozzle:
-#    image: amir20/dozzle
-#    command:
-#      - --mode
-#      - server
-#      - --filter
-#      - label=loggable
-#      - --no-analytics
-#    ports:
-#      - "8081:8080"
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    healthcheck:
-#      test: curl --fail http://localhost:8081/ || exit 1
-#      interval: 1s
-#      timeout: 1s
-#      retries: 3
-#      start_period: 60s
 
   # Tempo runs as user 10001, and docker compose creates the volume as root.
   # As such, we need to chown the volume in order for Tempo to start correctly.

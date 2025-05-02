@@ -1,3 +1,4 @@
 .idea
 /router/.router/router.log
 /router/.router/schema.json
+.env

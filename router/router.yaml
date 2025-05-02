@@ -4,7 +4,7 @@ supergraph:
   query_planning:
     cache:
       in_memory:
-        limit: 10
+        limit: 2
 
 sandbox:
   enabled: true
@@ -19,16 +19,16 @@ plugins:
 health_check:
   enabled: true
 
+
 telemetry:
+  instrumentation:
+    instruments:
+      router:
+        http.server.request.duration: 
+          attributes:
+            graphql.operation.name:
+              operation_name: string
   exporters:
-    logging:
-      stdout:
-        tty_format: json
-        rate_limit:
-          capacity: 1
-          enabled: true
-          interval: 10s
-        enabled: true
     tracing:
       common:
         sampler: 0.05
@@ -40,6 +40,5 @@ telemetry:
         enabled: true
         listen: 0.0.0.0:9090
         path: /metrics
-
 
 
