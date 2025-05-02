@@ -1,5 +1,23 @@
 name: support
 services:
+  dozzle:
+    image: amir20/dozzle
+    command:
+      - --mode
+      - server
+      - --filter
+      - label=loggable
+      - --no-analytics
+    ports:
+      - "8081:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: curl --fail http://localhost:8081/ || exit 1
+      interval: 1s
+      timeout: 1s
+      retries: 3
+      start_period: 60s
   router-init:
     image: &routerImage ghcr.io/apollographql/router:v2.2.0
     user: root
@@ -9,6 +27,18 @@ services:
       - "/var/log/router"
     volumes:
       - router-logs:/var/log/router
+  coprocessor:
+    labels:
+      - dev.dozzle.name=coprocessor
+      - dev.dozzle.group=coprocessor
+      - loggable
+    image: node:lts-alpine3.21
+    volumes:
+      - ${PWD}/router:/etc/router
+    entrypoint:
+      - "/etc/router/.router/bootstrap-coprocessor.sh"
+    ports:
+      - "3099:3099"
   router:
     image: ghcr.io/apollographql/router:v2.2.0
     environment:
@@ -27,6 +57,8 @@ services:
         limits:
           cpus: '2.0'
     labels:
+      - dev.dozzle.name=router
+      - dev.dozzle.group=apollo
       - loggable
     depends_on:
       - router-init
@@ -83,8 +115,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      -  ${PWD}/grafana/grafana.ini:/etc/grafana/grafana.ini
-      -  ${PWD}/grafana/provisioning:/etc/grafana/provisioning
+      - ${PWD}/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ${PWD}/grafana/provisioning:/etc/grafana/provisioning
 
   # Tempo runs as user 10001, and docker compose creates the volume as root.
   # As such, we need to chown the volume in order for Tempo to start correctly.
@@ -144,7 +176,7 @@ services:
     depends_on:
       - router
     volumes:
-      -  ${PWD}/vegeta:/etc/vegeta
+      - ${PWD}/vegeta:/etc/vegeta
     command: attack -targets=/etc/vegeta/targets.http -rate=1000 -timeout 10s -duration=0 -output=/dev/null
     # restart: always
 
