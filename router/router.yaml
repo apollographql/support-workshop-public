@@ -4,13 +4,16 @@ supergraph:
   query_planning:
     cache:
       in_memory:
-        limit: 2
+        limit: 10
 
 sandbox:
   enabled: true
 homepage:
   enabled: false
 
+rhai:
+  scripts: "/etc/router/rhai"
+  main: test.rhai
 
 include_subgraph_errors:
   all: true
