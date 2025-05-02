@@ -930,11 +930,24 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "apollo_router_cache_hit_time_count / (apollo_router_cache_hit_time_count + apollo_router_cache_miss_time_count) * 100\n",
+          "expr": "apollo_router_cache_hit_time_count{storage=\"memory\"} / (apollo_router_cache_hit_time_count{storage=\"memory\"} + apollo_router_cache_miss_time_count{storage=\"memory\"}) * 100\n",
           "instant": false,
           "legendFormat": "{{kind}} ({{storage}})",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "apollo_router_cache_hit_time_count{storage=\"redis\"} / (apollo_router_cache_hit_time_count{storage=\"redis\"} + apollo_router_cache_miss_time_count{storage=\"redis\"}) * 100",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{kind}} ({{storage}})",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Cache hit percentage",
@@ -1206,7 +1219,7 @@
           "useBackend": false
         }
       ],
-      "title": "Query planner cache size",
+      "title": "Query planner cache size (in memory)",
       "type": "timeseries"
     },
     {
@@ -1518,8 +1531,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1604,7 +1616,7 @@
       "type": "traces"
     }
   ],
-  "refresh": "auto",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -1612,8 +1624,8 @@
       {
         "current": {
           "selected": false,
-          "text": "8b540384439f93107849dd12f270250",
-          "value": "8b540384439f93107849dd12f270250"
+          "text": "ce22000fe9d51c816753a0a577bebe36",
+          "value": "ce22000fe9d51c816753a0a577bebe36"
         },
         "hide": 2,
         "includeAll": false,

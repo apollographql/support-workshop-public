@@ -4,7 +4,11 @@ supergraph:
   query_planning:
     cache:
       in_memory:
-        limit: 10
+        limit: 3000
+      redis:
+        urls:
+          - "redis://redis:6379"
+    
 
 sandbox:
   enabled: true
@@ -24,13 +28,23 @@ health_check:
 
 
 telemetry:
-  instrumentation:
-    instruments:
-      router:
-        http.server.request.duration: 
-          attributes:
-            graphql.operation.name:
-              operation_name: string
+#  instrumentation:
+#    instruments:
+#      router:
+#        http.server.request.duration:
+#          attributes:
+#            graphql.operation.name:
+#              operation_name: string
+#    events:
+#      router:
+#        test:
+#          "on": request
+#          message: "Event"
+#          level: info
+#          condition:
+#            eq:
+#              - request_header: "x-custom-header"
+#              - "log"
   exporters:
     tracing:
       common:
