@@ -15,9 +15,10 @@ sandbox:
 homepage:
   enabled: false
 
-rhai:
-  scripts: "/etc/router/rhai"
-  main: test.rhai
+
+#rhai:
+#  scripts: "/etc/router/rhai"
+#  main: test.rhai
 
 include_subgraph_errors:
   all: true
@@ -58,4 +59,12 @@ telemetry:
         listen: 0.0.0.0:9090
         path: /metrics
 
-
+#authentication:
+#  router:
+#    jwt:
+#      jwks:
+#        - url: file:///etc/router/auth/jwks.json
+#
+#
+#authorization:
+#  require_authentication: true

@@ -171,14 +171,14 @@ services:
     image: redis:7.4
     # ports:
     #   - 6379:6379
-  vegeta:
-    image: jauderho/vegeta
-    depends_on:
-      - router
-    volumes:
-      - ${PWD}/vegeta:/etc/vegeta
-    command: attack -targets=/etc/vegeta/targets.http -rate=1000 -timeout 10s -duration=0 -output=/dev/null
-    # restart: always
+#  vegeta:
+#    image: jauderho/vegeta
+#    depends_on:
+#      - router
+#    volumes:
+#      - ${PWD}/vegeta:/etc/vegeta
+#    command: attack -targets=/etc/vegeta/targets.http -rate=1000 -timeout 10s -duration=0 -output=/dev/null
+#    # restart: always
 
 
 volumes:
