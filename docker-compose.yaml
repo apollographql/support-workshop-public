@@ -142,6 +142,10 @@ services:
     depends_on:
       - init-tempo
     restart: always
+    labels:
+      - dev.dozzle.name=tempo
+      - dev.dozzle.group=grafana
+      - loggable
   init-loki:
     image: &lokiImage grafana/loki:latest
     user: root
