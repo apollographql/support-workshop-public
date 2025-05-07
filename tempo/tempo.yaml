@@ -25,6 +25,8 @@ distributor:
       protocols:
         http:
         grpc:
+          endpoint: 0.0.0.0:4317
+          max_recv_msg_size_mib: 100
     opencensus:
 
 ingester:
