@@ -49,7 +49,7 @@ telemetry:
   exporters:
     tracing:
       common:
-        sampler: 0.05
+        sampler: 1
       otlp:
         enabled: true
         endpoint: tempo:4317

@@ -67,7 +67,7 @@ type Product
   upc: String!
   weight: Int @join__field(graph: INVENTORY, external: true) @join__field(graph: PRODUCTS)
   price: Int @join__field(graph: INVENTORY, external: true) @join__field(graph: PRODUCTS)
-  inStock: Boolean @join__field(graph: INVENTORY) @requiresScopes(scopes: [["read:inStock"]])
+  inStock: Boolean @join__field(graph: INVENTORY) 
   shippingEstimate: Int @join__field(graph: INVENTORY, requires: "price weight")
   name: String @join__field(graph: PRODUCTS)
   reviews: [Review] @join__field(graph: REVIEWS)

@@ -112,6 +112,8 @@ services:
     restart: always
   grafana:
     image: grafana/grafana-oss
+#    environment:
+#      - GF_INSTALL_PLUGINS=https://storage:googleapis:com/integration-artifacts/grafana-exploretraces-app/grafana-exploretraces-app-latest:zip;grafana-traces-app
     ports:
       - "3000:3000"
     volumes:

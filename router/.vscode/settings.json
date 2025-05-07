@@ -2,5 +2,7 @@
   "yaml.schemas": {
     ".router/schema.json": "router.yaml"
   },
-  "workbench.startupEditor": "readme"
+  "workbench.startupEditor": "readme",
+  "yaml.disableDefaultProperties": true,
+  "yaml.suggest.parentSkeletonSelectedFirst": false
 }
