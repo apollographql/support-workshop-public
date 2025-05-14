@@ -174,7 +174,7 @@ services:
     command: -config.file=/etc/promtail/promtail.yaml
     restart: always
   redis:
-    image: redis:7.4
+    image: redis:8.0
     # ports:
     #   - 6379:6379
 #  vegeta:
