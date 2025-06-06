@@ -19,7 +19,7 @@ services:
       retries: 3
       start_period: 60s
   router-init:
-    image: &routerImage ghcr.io/apollographql/router:v2.2.0
+    image: &routerImage ghcr.io/apollographql/router:v2.3.0
     user: root
     entrypoint:
       - "chown"
@@ -40,7 +40,7 @@ services:
     ports:
       - "3099:3099"
   router:
-    image: ghcr.io/apollographql/router:v2.2.0
+    image: ghcr.io/apollographql/router:v2.3.0
     environment:
       # Note that APOLLO_KEY and APOLLO_GRAPH_REF will be rotated.
       - APOLLO_KEY=${APOLLO_KEY}
